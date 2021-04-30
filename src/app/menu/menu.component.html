@@ -1,0 +1,14 @@
+<div class="rw-menu">
+  <div>
+    <h3>A.Platillos</h3>
+    <ul>
+      <li *ngFor="let dish of dishes; let i = index">
+        <span class="status" [class.available]="dish.available"></span>
+        {{ i + 1 }}: {{ dish.name | uppercase}}  : {{dish.price|currency:'S/.':"symbol":"4.1-5"}}
+        <img [src]="dish.photo? dish.photo:'http://www.mdvacationclub.com/wp-content/uploads/2018/12/Placeholder.png'" width=200 >
+      
+      </li>
+    </ul>
+  </div>
+  
+</div>
