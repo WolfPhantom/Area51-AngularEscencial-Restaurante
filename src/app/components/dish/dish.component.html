@@ -1,21 +1,38 @@
-<div class="rw-dish">
-  <img [src]="photo" width="200" #dishPhoto />
-  <input
-    [placeholder]="placeholder"
-    [value]="name"
-    type="text"
-    (input)="handleInput($event)"
-    (blur)="handleBlur($event)"
-    (keyup)="handleKeyUp($event)"
-  />
-  <!-- <input
-    type="text"
-    [ngModel]="name"
-    (ngModelChange)="changeNameModel($event)"
-  /> -->
-  <!-- <input type="text" [(ngModel)]="name" /> -->
+<div class="card" [ngClass]="{
+  'has-background-success-light':dish.available,
+  'has-background-danger-light':!dish.available
+}">
+  <div class="card-content">
+    <div class="media">
+      <div class="media-left">
+        <figure class="image is-128x128 " 
+        [ngStyle]="{borderColor:dish.available?'hsl(141,53%,31%)':'hsl(348,86%,43%)'}">
+          <img [src]="dish.photo"[alt]="dish.name">
+        </figure>
+      </div>
+      <div class="media-content">
+        <p class="title is-4">{{dish.name}}</p>
+        <p class="subtitle is-6">{{dish.price|currency:"S/."}}</p>
+      
+        <span class="tag "
+        [ngClass]="{
+          'is-success':dish.available,
+          'is-danger':!dish.available
+        }">{{dish.available?'Todavia alcanzas':'Se acabo'}}</span>
+        <button 
+          *ngIf="dish.available" 
+          class="button is-success  is-small is-outlined"
+          (click)="onAdd(dish)"
+        >
+          <span class="icon is-small" >
+            <fa-icon [icon]="['fas','plus']"></fa-icon>
+          </span>
+        </button>
+        
+      </div>
+    </div>
 
-  <input type="text" #dishName />
-  {{ name }}
-  <button (click)="changeName(dishName.value)">Cambiar nombre</button>
+    
+  </div>
 </div>
+

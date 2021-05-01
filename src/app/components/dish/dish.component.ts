@@ -1,46 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { Dish } from 'projects/data-models/src/public-api';
 
 @Component({
   selector: 'rw-dish',
   templateUrl: './dish.component.html',
   styleUrls: ['./dish.component.scss'],
 })
-export class DishComponent implements OnInit {
-  name: string;
-  placeholder: string;
-  photo: string;
+export class DishComponent implements OnInit, OnChanges {
+  @Input() dish: Dish = {
+    name: '',
+    photo: '',
+    price: '',
+    available: false,
+  };
+  @Output() add: EventEmitter<Dish> = new EventEmitter();
 
-  constructor() {
-    this.placeholder = 'El platillo es...';
-    this.name = 'Pan con palta';
-    // this.photo =
-    //   'https://www.diabelife.com/wp-content/uploads/2015/08/pan-integral-con-palta-y-huevo.jpg';
-    this.photo = 'assets/dish-1.jpeg';
-  }
-
+  private placeholder = 'https://via.placeholder.com/300.png/EFF1FA/3850b7?text=The+Dishes';
+  constructor() {}
   ngOnInit(): void {}
-
-  changeName(name: string): void {
-    console.log('Template Ref -> ' + name);
-    // this.name = 'Pan con huevo';
+  ngOnChanges(changes: SimpleChanges): void
+  {
+    this.dish.photo = changes.dish.currentValue.photo || this.placeholder;
+    this.dish.available = changes.dish.currentValue.available || false;
   }
-
-  changeNameModel(value: string): void {
-    this.name = value;
-  }
-
-  handleInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    console.log('Input -> ' + input.value);
-  }
-
-  handleBlur(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    console.log('Blur -> ' + input.value);
-  }
-
-  handleKeyUp(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    console.log('KeyUp -> ' + input.value);
+  onAdd(dish: Dish): void
+  {
+    this.add.emit(dish);
   }
 }
